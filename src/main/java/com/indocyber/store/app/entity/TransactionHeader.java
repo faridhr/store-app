@@ -14,16 +14,20 @@ public class TransactionHeader {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 3)
     private String documentCode;
 
+    @Column(length = 10)
     private String documentNumber;
 
-    private String user;
+    @Column(length = 50)
+    private String userLogin;
 
     private Integer total;
 
+    @Column(length = 10)
     private LocalDate date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Login login;
 }

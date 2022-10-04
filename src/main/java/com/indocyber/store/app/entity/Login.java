@@ -1,7 +1,6 @@
 package com.indocyber.store.app.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 @Data
@@ -13,7 +12,8 @@ public class Login {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String user;
+    @Column(unique = true, nullable = false, length = 50)
+    private String username;
 
     private String password;
 

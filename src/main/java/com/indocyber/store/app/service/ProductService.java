@@ -3,7 +3,6 @@ package com.indocyber.store.app.service;
 import com.indocyber.store.app.entity.Product;
 import com.indocyber.store.app.repository.ProductRepository;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.NoResultException;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +18,10 @@ public class ProductService {
 
     public List<Product> findAll() {
         List<Product> productList = new LinkedList<>();
-        repository.findAll().forEach(productList::add);
+        repository.findAll().forEach(e -> {
+            e.setDiscountPrice(this.discount(e.getPrice(), e.getDiscount()));
+            productList.add(e);
+        });
         if (productList.size() < 1) throw new NoResultException("Data not found");
         return productList;
     }
@@ -40,5 +42,10 @@ public class ProductService {
 
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    private Double discount(Double value, Integer discount) {
+        if (discount.equals(0)) return discount.doubleValue();
+        return value - (value.intValue() / discount);
     }
 }
